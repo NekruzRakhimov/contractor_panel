@@ -65,7 +65,7 @@ const (
 	CouldNotOpenDbConnection = 51000
 	CouldNotPingDb           = 51001
 
-	CouldNotSignIn            = 53000
+	CouldNotSignIn      = 53000
 	CouldNotVerifyToken = 53001
 
 	CouldNotGetContractorById = 52000
