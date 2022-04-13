@@ -147,6 +147,14 @@ func ErrCouldNotConnectToDb(err error) *AppError {
 	}
 }
 
+func ErrCouldNotConnectToRedisDb(err error) *AppError {
+	return &AppError{
+		error:       err,
+		code:        CouldNotOpenDbConnection,
+		userMessage: "не удалось подключиться к базе данных redis",
+	}
+}
+
 func ErrCouldNotPingDb(err error) *AppError {
 	return &AppError{
 		error:       err,

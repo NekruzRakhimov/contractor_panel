@@ -12,14 +12,18 @@ import (
 func RedisConn() *redis.Client {
 	dsn := viper.GetString(config.RedisDsn)
 
-	client := redis.NewClient(&redis.Options{
-		Addr:      dsn, //redis port
-		TLSConfig: &tls.Config{},
-	})
-
-	_, err := client.Ping().Result()
+	options, err := redis.ParseURL(dsn)
 	if err != nil {
-		log.Fatal(cerrors.ErrCouldNotConnectToDb(err))
+		log.Fatal(cerrors.ErrCouldNotConnectToRedisDb(err))
+	}
+
+	options.TLSConfig = &tls.Config{}
+
+	client := redis.NewClient(options)
+
+	_, err = client.Ping().Result()
+	if err != nil {
+		log.Fatal(cerrors.ErrCouldNotConnectToRedisDb(err))
 	}
 
 	return client
