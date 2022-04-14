@@ -67,8 +67,10 @@ func configureRoutes(r *mux.Router, pc *pgxpool.Pool, client *redis2.Client) err
 	signRepo := postgres.NewSignRepository(pc)
 	userRepo := postgres.NewUserRepository(pc)
 	tokenRepo := redis.NewTokenRepository(client)
+	contractTemplateRepo := postgres.NewContractTemplateRepository(pc)
 
 	signService := service.NewSignService(signRepo, tokenRepo)
+	contractTemplateService := service.NewContractTemplateService(contractTemplateRepo)
 
 	//region Sign routes
 	apiSign := r.PathPrefix("/api/v1/sign").Subrouter()
@@ -78,6 +80,7 @@ func configureRoutes(r *mux.Router, pc *pgxpool.Pool, client *redis2.Client) err
 	//region Contractor routes
 	api := r.PathPrefix("/api/v1").Subrouter()
 	api.Use(middleware.AuthHandler(userRepo))
+	controller.NewContractTemplateController(contractTemplateService).HandleRoutes(api)
 
 	//endregion
 
