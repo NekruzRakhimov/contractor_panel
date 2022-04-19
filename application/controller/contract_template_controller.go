@@ -19,7 +19,17 @@ func NewContractTemplateController(s service.ContractTemplateService) *ContractT
 func (c *ContractTemplateController) HandleRoutes(r *mux.Router) {
 	r.HandleFunc("/contractTemplates", c.GetAllContractTemplates).Methods(http.MethodOptions, http.MethodGet)
 	r.HandleFunc("/contractTemplates/{id}/file", c.DownloadFile).Methods(http.MethodOptions, http.MethodGet)
+	r.HandleFunc("/contracts", c.GetAllContracts).Methods(http.MethodOptions, http.MethodGet)
 
+}
+
+func (c *ContractTemplateController) GetAllContracts(w http.ResponseWriter, r *http.Request) {
+	contracts, err := c.s.GetAllContracts(r.Context(), "")
+	if err != nil {
+		respond.WithError(w, r, err)
+	}
+
+	respond.With(w, r, contracts)
 }
 
 func (c *ContractTemplateController) GetAllContractTemplates(w http.ResponseWriter, r *http.Request) {

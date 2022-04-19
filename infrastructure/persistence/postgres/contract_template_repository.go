@@ -3,6 +3,7 @@ package postgres
 import (
 	"context"
 	"contractor_panel/domain/model"
+	"fmt"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
@@ -71,4 +72,42 @@ func (r *ContractTemplateRepository) unwrapContractTemplateSlice(res interface{}
 	} else {
 		return res.(*model.ContractTemplate)
 	}
+}
+
+func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contractStatus string) (contracts []model.ContractWithJsonB, err error) {
+	fmt.Println("GetALlContract Calling---------------------------")
+
+	var contractStatusRus = ""
+	sqlQuery := "SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts) AND is_active = true"
+
+	if contractStatus != "" && contractStatus != "ACTIVE_AND_EXPIRED" {
+		switch contractStatus {
+		case "DRAFT":
+			contractStatusRus = "черновик"
+		case "ON_APPROVAL":
+			contractStatusRus = "на согласовании"
+		case "ACTIVE":
+			contractStatusRus = "в работе"
+		case "EXPIRED":
+			contractStatusRus = "заверщённый"
+		case "CANCELED":
+			contractStatusRus = "отменен"
+		}
+		sqlQuery += fmt.Sprintf(" AND status = '%s'", contractStatusRus)
+	}
+
+	if contractStatus == "ACTIVE_AND_EXPIRED" {
+		sqlQuery += fmt.Sprintf(" AND status in ('%s', '%s')", "в работе", "заверщённый")
+	}
+
+	//sqlQuery += " ORDER BY created_at DESC"
+	sqlQuery += " ORDER BY id desc"
+
+	_, err = Query(r.db, ctx, sqlQuery).Scan(&contracts)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return contracts, nil
 }
