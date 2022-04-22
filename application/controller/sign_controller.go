@@ -3,12 +3,12 @@ package controller
 import (
 	"contractor_panel/application/cerrors"
 	"contractor_panel/application/dto"
+	"contractor_panel/application/middleware"
 	"contractor_panel/application/respond"
 	"contractor_panel/application/service"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"net/http"
-	"time"
 )
 
 type SignController struct {
@@ -44,7 +44,7 @@ func (c *SignController) SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.SetCookie(w, &http.Cookie{
+	/*http.SetCookie(w, &http.Cookie{//TODO на это когда фронт разберется с получением куки у себя и сет куки надо переписать в respond
 		Name:     "accessToken",
 		Value:    tokens.AccessToken,
 		Expires:  time.Unix(tokens.AtExpires, 0),
@@ -60,20 +60,14 @@ func (c *SignController) SignIn(w http.ResponseWriter, r *http.Request) {
 		HttpOnly: true,
 		Secure:   true,
 		SameSite: http.SameSiteStrictMode,
-	})
+	})*/
 
-	respond.With(w, r, true)
+	respond.With(w, r, dto.ConvertTokenDetailsToDto(tokens))
 }
 
 func (c *SignController) Refresh(w http.ResponseWriter, r *http.Request) {
-	cookie, err := r.Cookie("refreshToken")
-	if err != nil {
-		respond.WithError(w, r, cerrors.ErrCouldNotVerifyToken(err))
-		return
-	}
-
-	// Get the JWT string from the cookie
-	tokenString := cookie.Value
+	// Get the JWT string
+	tokenString := middleware.ExtractToken(r)
 
 	ctx := r.Context()
 
@@ -83,7 +77,7 @@ func (c *SignController) Refresh(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.SetCookie(w, &http.Cookie{
+	/*http.SetCookie(w, &http.Cookie{//TODO на это когда фронт разберется с получением куки у себя и сет куки надо переписать в respond
 		Name:     "accessToken",
 		Value:    tokens.AccessToken,
 		Expires:  time.Unix(tokens.AtExpires, 0),
@@ -99,24 +93,18 @@ func (c *SignController) Refresh(w http.ResponseWriter, r *http.Request) {
 		HttpOnly: true,
 		Secure:   true,
 		SameSite: http.SameSiteStrictMode,
-	})
+	})*/
 
-	respond.With(w, r, true)
+	respond.With(w, r, dto.ConvertTokenDetailsToDto(tokens))
 }
 
 func (c *SignController) SignOut(w http.ResponseWriter, r *http.Request) {
-	cookie, err := r.Cookie("refreshToken")
-	if err != nil {
-		respond.WithError(w, r, cerrors.ErrCouldNotVerifyToken(err))
-		return
-	}
-
-	// Get the JWT string from the cookie
-	tokenString := cookie.Value
+	// Get the JWT string
+	tokenString := middleware.ExtractToken(r)
 
 	ctx := r.Context()
 
-	if err = c.s.SignOut(ctx, tokenString); err != nil {
+	if err := c.s.SignOut(ctx, tokenString); err != nil {
 		respond.WithError(w, r, cerrors.ErrCouldNotVerifyToken(err))
 		return
 	}

@@ -36,7 +36,7 @@ func (s *signService) SignIn(ctx context.Context, incomingCredential model.Crede
 		return nil, cerrors.ErrCouldNotSignIn(err, incomingCredential.UserLogin)
 	}
 
-	if existingCredentials == nil {
+	if existingCredentials == nil || len(existingCredentials) == 0 {
 		return nil, cerrors.ErrCouldNotSignIn(errors.New(fmt.Sprintf(
 			"по указанному логину %s нет контрагента в базе", incomingCredential.UserLogin)),
 			incomingCredential.UserLogin)
