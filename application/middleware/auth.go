@@ -14,6 +14,7 @@ import (
 	"github.com/spf13/viper"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 const (
@@ -73,14 +74,28 @@ func GetUserInfo(ctx context.Context) *model.UserInfo {
 	return info
 }
 
-func VerifyToken(r *http.Request) (*jwt.Token, error) {
-	c, err := r.Cookie("accessToken")
-	if err != nil {
-		return nil, err
+func ExtractToken(r *http.Request) string {
+	bearToken := r.Header.Get("Authorization")
+	strArr := strings.Split(bearToken, "Bearer ")
+	if len(strArr) == 2 {
+		return strArr[1]
 	}
 
-	// Get the JWT string from the cookie
-	tokenString := c.Value
+	return ""
+}
+
+func ExtractTokenFromCookie(r *http.Request) (string, error) { //TODO переделать на это когда фронт разберется работать с куки
+	c, err := r.Cookie("accessToken")
+	if err != nil {
+		return "", err
+	}
+
+	return c.Value, err
+}
+
+func VerifyToken(r *http.Request) (*jwt.Token, error) {
+	// Get the JWT string
+	tokenString := ExtractToken(r)
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		//Make sure that the token method conform to "SigningMethodHMAC"
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
