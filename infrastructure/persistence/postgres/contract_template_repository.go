@@ -5,6 +5,7 @@ import (
 	"contractor_panel/domain/model"
 	"fmt"
 	"github.com/jackc/pgx/v4/pgxpool"
+	log "github.com/sirupsen/logrus"
 )
 
 type ContractTemplateRepository struct {
@@ -79,6 +80,9 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 
 	var contractStatusRus = ""
 	sqlQuery := "SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts) AND is_active = true"
+	log.Println("STATUS", contractStatus)
+	fmt.Println("STATUS", contractStatus)
+	fmt.Println("sqlQuery", sqlQuery)
 
 	if contractStatus != "" && contractStatus != "ACTIVE_AND_EXPIRED" {
 		switch contractStatus {

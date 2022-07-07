@@ -73,7 +73,7 @@ func configureRoutes(r *mux.Router, pc *pgxpool.Pool, client *redis2.Client) err
 	contractTemplateService := service.NewContractTemplateService(contractTemplateRepo)
 
 	//region Sign routes
-	apiSign := r.PathPrefix("/api/v1/sign").Subrouter()
+	apiSign := r.PathPrefix(" ").Subrouter()
 	controller.NewSignController(signService).HandleRoutes(apiSign)
 	//end region
 
