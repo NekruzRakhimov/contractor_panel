@@ -107,8 +107,10 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 	//sqlQuery += " ORDER BY created_at DESC"
 	sqlQuery += " ORDER BY id desc"
 
-	_, err = Query(r.db, ctx, sqlQuery).Scan(&contracts)
-	fmt.Println("contracts", contracts)
+	query, err := r.db.Query(ctx, sqlQuery)
+	query.Scan(&contracts)
+	//_, err = Query(r.db, ctx, sqlQuery).Scan(&contracts)
+	fmt.Println("contracts RESULT", contracts)
 
 	if err != nil {
 		return nil, err
