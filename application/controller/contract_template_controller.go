@@ -25,6 +25,7 @@ func (c *ContractTemplateController) HandleRoutes(r *mux.Router) {
 
 func (c *ContractTemplateController) GetAllContracts(w http.ResponseWriter, r *http.Request) {
 	status := mux.Vars(r)["status"]
+
 	contracts, err := c.s.GetAllContracts(r.Context(), status)
 
 	if err != nil {
