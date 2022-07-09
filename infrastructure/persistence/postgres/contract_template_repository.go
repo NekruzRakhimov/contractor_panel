@@ -108,13 +108,21 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 	sqlQuery += " ORDER BY id desc"
 
 	query, err := r.db.Query(ctx, sqlQuery)
-	query.Scan(&contracts)
+	//query.Scan(&contracts)
+
 	//_, err = Query(r.db, ctx, sqlQuery).Scan(&contracts)
 	fmt.Println("contracts RESULT", contracts)
+	contractsSL := make([]model.ContractWithJsonB, 0)
 
+	for query.Next() {
+		item := model.ContractWithJsonB{}
+		query.Scan(&item.ID, &item.IsExtendContract, &item.ExtContractCode, &item.Discounts, &item.Products, &item.UpdatedAt)
+		contractsSL = append(contractsSL, item)
+
+	}
 	if err != nil {
 		return nil, err
 	}
 
-	return contracts, nil
+	return contractsSL, nil
 }
