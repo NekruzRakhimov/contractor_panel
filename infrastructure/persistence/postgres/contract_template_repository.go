@@ -137,7 +137,7 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 		i := model.ContractWithJsonB{}
 		//rows.Scan(&i.ID, &i.PrevContractId, &i.Status, &i.Requisites, &i.Manager, &i.Type, &i.SupplierCompanyManager, &i.ContractParameters, &i.Products, &i.Discounts, &i.Comment, &i.KAM, &i.UpdatedAt, &i.CreatedAt, &i.WithTemperatureConditions, &i.IsIndivid, &i.ExtContractCode)
 		err := rows.Scan(&i.ID, &i.Type, &i.Status, &i.Requisites, &i.Manager, &i.KAM, &i.SupplierCompanyManager, &i.ContractParameters, &i.WithTemperatureConditions,
-			&i.Products, &i.Discounts, &i.Comment, &i.CreatedAt, &i.UpdatedAt, &i.IsIndivid, &i.DiscountBrand, &i.AdditionalAgreementNumber, &i.ExtContractCode)
+			&i.Products, &i.Discounts, &i.Comment, &i.CreatedAt, &i.UpdatedAt, &i.IsIndivid, &i.AdditionalAgreementNumber, &i.ExtContractCode)
 		if err != nil {
 			fmt.Println("ERROR", err)
 		}
