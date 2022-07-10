@@ -117,7 +117,21 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 	fmt.Println("Первый запрос", brands)
 	r.db.QueryRow(ctx, sqlQueryBrand).Scan(&brands2.ID, &brands2.Brand, &brands2.BrandCode, &brands2.DiscountPercent)
 	fmt.Println("Второй пример", brands2)
-	Query(r.db, ctx, sqlQueryBrands).Scan(&brandsAlL)
+
+	rows, err := r.db.Query(ctx, sqlQueryBrands)
+
+	items := make([]model.Brand, 0)
+	for rows.Next() {
+		item := model.Brand{}
+		rows.Scan(&item.ID, &item.Brand, &item.BrandCode, &item.DiscountPercent)
+		fmt.Println("внутри цикла ", item)
+		items = append(items, item)
+
+	}
+	fmt.Println("После выхода loop", items)
+
+	Query(r.db, ctx, sqlQueryBrands)
+
 	fmt.Println("ВСЕ БРЕНДЫ", brandsAlL)
 
 	query, err := r.db.Query(ctx, sqlQuery)
