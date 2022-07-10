@@ -111,9 +111,9 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 	//sqlQuery += " ORDER BY created_at DESC"
 	sqlQuery += " ORDER BY id desc"
 
-	Query(r.db, ctx, sqlQueryBrand).Scan(&brands)
+	Query(r.db, ctx, sqlQueryBrand).Scan(&brands.ID, &brands.Brand, &brands.BrandCode, &brands.DiscountPercent)
 	fmt.Println("Первый запрос", brands)
-	r.db.QueryRow(ctx, sqlQueryBrand).Scan(&brands)
+	r.db.QueryRow(ctx, sqlQueryBrand).Scan(&brands2.ID, &brands2.Brand, &brands2.BrandCode, &brands2.DiscountPercent)
 	fmt.Println("Второй пример", brands2)
 
 	query, err := r.db.Query(ctx, sqlQuery)
