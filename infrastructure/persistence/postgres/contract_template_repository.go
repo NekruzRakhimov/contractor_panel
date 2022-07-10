@@ -76,14 +76,16 @@ func (r *ContractTemplateRepository) unwrapContractTemplateSlice(res interface{}
 }
 
 func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contractStatus string) (contracts []model.ContractWithJsonB, err error) {
+
 	fmt.Println("GetALlContract Calling---------------------------")
 	var brands model.Brand
 	var brandsAlL []model.Brand
 	var brands2 model.Brand
+	var contract model.ContractWithJsonB
 
 	var contractStatusRus = ""
 	//sqlQuery := "SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts) AND is_active = true"
-	sqlQuery := "SELECT  id, status, requisites FROM contracts"
+	sqlQuery := "SELECT  id, status, requisites FROM contracts WHERE id = 577"
 	sqlQueryBrand := "SELECT id, brand, brand_code, discount_percent FROM brands WHERE id = 31"
 	sqlQueryBrands := "SELECT id, brand, brand_code, discount_percent FROM brands"
 
@@ -116,23 +118,27 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 
 	Query(r.db, ctx, sqlQueryBrand).Scan(&brands.ID, &brands.Brand, &brands.BrandCode, &brands.DiscountPercent)
 	fmt.Println("Первый запрос", brands)
-	r.db.QueryRow(ctx, sqlQueryBrand).Scan(&brands2.ID, &brands2.Brand, &brands2.BrandCode, &brands2.DiscountPercent)
-	fmt.Println("Второй пример", brands2)
+	//r.db.QueryRow(ctx, sqlQueryBrand).Scan(&brands2.ID, &brands2.Brand, &brands2.BrandCode, &brands2.DiscountPercent)
+	r.db.QueryRow(ctx, sqlQuery).Scan(&contract.ID, &contract.Status, &contract.Requisites)
+	fmt.Println("Пример с контрактами", contract)
 
 	//rows, err := r.db.Query(ctx, sqlQueryBrands)
-	rows, err := r.db.Query(ctx, sqlQuery)
+	//rows, err := r.db.Query(ctx, sqlQuery)
+	//
+	//items := make([]model.ContractWithJsonB, 0)
+	//for rows.Next() {
+	//	i := model.ContractWithJsonB{}
+	//	//rows.Scan(&i.ID, &i.PrevContractId, &i.Status, &i.Requisites, &i.Manager, &i.Type, &i.SupplierCompanyManager, &i.ContractParameters, &i.Products, &i.Discounts, &i.Comment, &i.KAM, &i.UpdatedAt, &i.CreatedAt, &i.WithTemperatureConditions, &i.IsIndivid, &i.ExtContractCode)
+	//	err := rows.Scan(&i.ID, i.Status, i.Requisites)
+	//	if err != nil {
+	//		fmt.Println("ERROR", err)
+	//	}
+	//	fmt.Println("внутри цикла ", i)
+	//	items = append(items, i)
+	//
+	//}
 
-	items := make([]model.ContractWithJsonB, 0)
-	for rows.Next() {
-		i := model.ContractWithJsonB{}
-		//rows.Scan(&i.ID, &i.PrevContractId, &i.Status, &i.Requisites, &i.Manager, &i.Type, &i.SupplierCompanyManager, &i.ContractParameters, &i.Products, &i.Discounts, &i.Comment, &i.KAM, &i.UpdatedAt, &i.CreatedAt, &i.WithTemperatureConditions, &i.IsIndivid, &i.ExtContractCode)
-		rows.Scan(&i.ID, i.Status, i.Requisites)
-		fmt.Println("внутри цикла ", i)
-		items = append(items, i)
-
-	}
-
-	fmt.Println("После выхода loop", items)
+	//fmt.Println("После выхода loop", items)
 
 	Query(r.db, ctx, sqlQueryBrands)
 
