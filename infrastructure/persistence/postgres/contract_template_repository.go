@@ -80,7 +80,7 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 	fmt.Println("GetALlContract Calling---------------------------")
 	var brands model.Brand
 	var brandsAlL []model.Brand
-	var brands2 model.Brand
+	//var brands2 model.Brand
 	var contract model.ContractWithJsonB
 
 	var contractStatusRus = ""
@@ -118,8 +118,12 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 
 	Query(r.db, ctx, sqlQueryBrand).Scan(&brands.ID, &brands.Brand, &brands.BrandCode, &brands.DiscountPercent)
 	fmt.Println("Первый запрос", brands)
+
 	//r.db.QueryRow(ctx, sqlQueryBrand).Scan(&brands2.ID, &brands2.Brand, &brands2.BrandCode, &brands2.DiscountPercent)
-	r.db.QueryRow(ctx, sqlQuery).Scan(&contract.ID, &contract.Status, &contract.Requisites)
+	err = r.db.QueryRow(ctx, sqlQuery).Scan(&contract.ID, &contract.Status, &contract.Requisites)
+	if err != nil {
+		fmt.Println("ERROR", err)
+	}
 	fmt.Println("Пример с контрактами", contract)
 
 	//rows, err := r.db.Query(ctx, sqlQueryBrands)
