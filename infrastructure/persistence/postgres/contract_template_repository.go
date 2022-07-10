@@ -78,18 +78,15 @@ func (r *ContractTemplateRepository) unwrapContractTemplateSlice(res interface{}
 func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contractStatus string) ([]model.ContractWithJsonB, error) {
 
 	fmt.Println("GetALlContract Calling---------------------------")
-	var brands model.Brand
-	var brandsAlL []model.Brand
+
 	//var brands2 model.Brand
 	//var contract []model.ContractWithJsonB
 
 	var contractStatusRus = ""
 	//sqlQuery := "SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts) AND is_active = true"
 
-	sqlQuery := "SELECT  id,type, status, requisites, manager, kam, supplier_company_manager, contract_parameters,with_temperature_conditions," +
-		"products, discounts, comment,  created_at, updated_at,is_individ, additional_agreement_number,ext_contract_code FROM contracts"
-	sqlQueryBrand := "SELECT id, brand, brand_code, discount_percent FROM brands WHERE id = 31"
-	sqlQueryBrands := "SELECT id, brand, brand_code, discount_percent FROM brands"
+	sqlQuery := "SELECT  id, type, status, requisites, manager, kam, supplier_company_manager, contract_parameters, with_temperature_conditions," +
+		"products, discounts, comment,  created_at, updated_at, is_individ, additional_agreement_number, ext_contract_code FROM contracts"
 
 	log.Println("STATUS", contractStatus)
 	fmt.Println("STATUS", contractStatus)
@@ -118,9 +115,6 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 	//sqlQuery += " ORDER BY created_at DESC"
 	sqlQuery += " ORDER BY id desc"
 
-	Query(r.db, ctx, sqlQueryBrand).Scan(&brands.ID, &brands.Brand, &brands.BrandCode, &brands.DiscountPercent)
-	fmt.Println("Первый запрос", brands)
-
 	//r.db.QueryRow(ctx, sqlQueryBrand).Scan(&brands2.ID, &brands2.Brand, &brands2.BrandCode, &brands2.DiscountPercent)
 	//err = r.db.QueryRow(ctx, sqlQuery).Scan(&contract.ID, &contract.Status, &contract.Requisites)
 	//if err != nil {
@@ -145,26 +139,23 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 		items = append(items, i)
 
 	}
+	fmt.Println("ARRAY", items)
 
 	//fmt.Println("После выхода loop", items)
 
-	Query(r.db, ctx, sqlQueryBrands)
-
-	fmt.Println("ВСЕ БРЕНДЫ", brandsAlL)
-
-	query, err := r.db.Query(ctx, sqlQuery)
+	//query, err := r.db.Query(ctx, sqlQuery)
 	//query.Scan(&contracts)
 
 	//_, err = Query(r.db, ctx, sqlQuery).Scan(&contracts)
 	//fmt.Println("contracts RESULT", contracts)
-	contractsSL := make([]model.ContractWithJsonB, 0)
-
-	for query.Next() {
-		item := model.ContractWithJsonB{}
-		query.Scan(&item.ID, &item.IsExtendContract, &item.ExtContractCode, &item.Discounts, &item.Products, &item.UpdatedAt)
-		contractsSL = append(contractsSL, item)
-
-	}
+	//contractsSL := make([]model.ContractWithJsonB, 0)
+	//
+	//for query.Next() {
+	//	item := model.ContractWithJsonB{}
+	//	query.Scan(&item.ID, &item.IsExtendContract, &item.ExtContractCode, &item.Discounts, &item.Products, &item.UpdatedAt)
+	//	contractsSL = append(contractsSL, item)
+	//
+	//}
 	if err != nil {
 		return nil, err
 	}
