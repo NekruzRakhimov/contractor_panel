@@ -118,16 +118,18 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 	r.db.QueryRow(ctx, sqlQueryBrand).Scan(&brands2.ID, &brands2.Brand, &brands2.BrandCode, &brands2.DiscountPercent)
 	fmt.Println("Второй пример", brands2)
 
-	rows, err := r.db.Query(ctx, sqlQueryBrands)
+	//rows, err := r.db.Query(ctx, sqlQueryBrands)
+	rows, err := r.db.Query(ctx, sqlQuery)
 
-	items := make([]model.Brand, 0)
+	items := make([]model.ContractWithJsonB, 0)
 	for rows.Next() {
-		item := model.Brand{}
-		rows.Scan(&item.ID, &item.Brand, &item.BrandCode, &item.DiscountPercent)
-		fmt.Println("внутри цикла ", item)
-		items = append(items, item)
+		i := model.ContractWithJsonB{}
+		rows.Scan(&i.ID, &i.PrevContractId, &i.Status, &i.Requisites, &i.Manager, &i.Type, &i.SupplierCompanyManager, &i.ContractParameters, &i.Products, &i.Discounts, &i.Comment, &i.KAM, &i.UpdatedAt, &i.CreatedAt, &i.WithTemperatureConditions, &i.IsIndivid, &i.ExtContractCode)
+		fmt.Println("внутри цикла ", i)
+		items = append(items, i)
 
 	}
+
 	fmt.Println("После выхода loop", items)
 
 	Query(r.db, ctx, sqlQueryBrands)
@@ -151,5 +153,5 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 		return nil, err
 	}
 
-	return contractsSL, nil
+	return contracts, nil
 }
