@@ -193,3 +193,10 @@ type BrandDTO struct {
 	BrandName       string  `json:"brand_name"`
 	BrandCode       string  `json:"brand_code"`
 }
+
+type Brand struct {
+	ID              int    `json:"id"`
+	Brand           string `json:"brand"`
+	BrandCode       string `json:"brand_code"`
+	DiscountPercent string `json:"discount_percent"`
+}

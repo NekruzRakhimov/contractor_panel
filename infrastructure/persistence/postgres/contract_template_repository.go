@@ -77,9 +77,13 @@ func (r *ContractTemplateRepository) unwrapContractTemplateSlice(res interface{}
 
 func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contractStatus string) (contracts []model.ContractWithJsonB, err error) {
 	fmt.Println("GetALlContract Calling---------------------------")
+	var brands model.Brand
+	var brands2 model.Brand
 
 	var contractStatusRus = ""
 	sqlQuery := "SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts) AND is_active = true"
+	sqlQueryBrand := "SELECT id, brand, brand_code, discount_percent FROM brands WHERE id = 31"
+
 	log.Println("STATUS", contractStatus)
 	fmt.Println("STATUS", contractStatus)
 	fmt.Println("sqlQuery", sqlQuery)
@@ -106,6 +110,11 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 
 	//sqlQuery += " ORDER BY created_at DESC"
 	sqlQuery += " ORDER BY id desc"
+
+	Query(r.db, ctx, sqlQueryBrand).Scan(&brands)
+	fmt.Println("Первый запрос", brands)
+	r.db.QueryRow(ctx, sqlQueryBrand).Scan(&brands)
+	fmt.Println("Второй пример", brands2)
 
 	query, err := r.db.Query(ctx, sqlQuery)
 	//query.Scan(&contracts)
