@@ -75,7 +75,7 @@ func (r *ContractTemplateRepository) unwrapContractTemplateSlice(res interface{}
 	}
 }
 
-func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contractStatus string) (contracts []model.ContractWithJsonB, err error) {
+func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contractStatus string) ([]model.ContractWithJsonB, error) {
 
 	fmt.Println("GetALlContract Calling---------------------------")
 	var brands model.Brand
@@ -85,7 +85,9 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 
 	var contractStatusRus = ""
 	//sqlQuery := "SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts) AND is_active = true"
-	sqlQuery := "SELECT  id, status, requisites FROM contracts"
+
+	sqlQuery := "SELECT  id,type, status, requisites, manager, kam, supplier_company_manager, contract_parameters,with_temperature_conditions," +
+		"products, discounts, comment,  created_at, updated_at,is_individ,  discount_brand,  additional_agreement_number,ext_contract_code FROM contracts"
 	sqlQueryBrand := "SELECT id, brand, brand_code, discount_percent FROM brands WHERE id = 31"
 	sqlQueryBrands := "SELECT id, brand, brand_code, discount_percent FROM brands"
 
@@ -131,9 +133,11 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 	//
 	items := make([]model.ContractWithJsonB, 0)
 	for rows.Next() {
+
 		i := model.ContractWithJsonB{}
 		//rows.Scan(&i.ID, &i.PrevContractId, &i.Status, &i.Requisites, &i.Manager, &i.Type, &i.SupplierCompanyManager, &i.ContractParameters, &i.Products, &i.Discounts, &i.Comment, &i.KAM, &i.UpdatedAt, &i.CreatedAt, &i.WithTemperatureConditions, &i.IsIndivid, &i.ExtContractCode)
-		err := rows.Scan(&i.ID, &i.Status, &i.Requisites)
+		err := rows.Scan(&i.ID, &i.Type, &i.Status, &i.Requisites, &i.Manager, &i.KAM, &i.SupplierCompanyManager, &i.ContractParameters, &i.WithTemperatureConditions,
+			&i.Products, &i.Discounts, &i.Comment, &i.CreatedAt, &i.UpdatedAt, &i.IsIndivid, &i.DiscountBrand, &i.AdditionalAgreementNumber, &i.ExtContractCode)
 		if err != nil {
 			fmt.Println("ERROR", err)
 		}
@@ -152,7 +156,7 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 	//query.Scan(&contracts)
 
 	//_, err = Query(r.db, ctx, sqlQuery).Scan(&contracts)
-	fmt.Println("contracts RESULT", contracts)
+	//fmt.Println("contracts RESULT", contracts)
 	contractsSL := make([]model.ContractWithJsonB, 0)
 
 	for query.Next() {
@@ -165,5 +169,5 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 		return nil, err
 	}
 
-	return contracts, nil
+	return items, nil
 }
