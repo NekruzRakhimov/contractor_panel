@@ -85,7 +85,7 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 
 	var contractStatusRus = ""
 	//sqlQuery := "SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts) AND is_active = true"
-	sqlQuery := "SELECT  id, status, requisites FROM contracts WHERE"
+	sqlQuery := "SELECT  id, status, requisites FROM contracts"
 	sqlQueryBrand := "SELECT id, brand, brand_code, discount_percent FROM brands WHERE id = 31"
 	sqlQueryBrands := "SELECT id, brand, brand_code, discount_percent FROM brands"
 
