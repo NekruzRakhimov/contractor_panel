@@ -77,6 +77,7 @@ func (r *ContractTemplateRepository) unwrapContractTemplateSlice(res interface{}
 
 func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contractStatus string, userId int64) ([]model.ContractWithJsonB, error) {
 	var name string
+	var supplier string
 	r.db.QueryRow(ctx, "SELECT name FROM contractors_contractor WHERE  id = $1", userId).Scan(&name)
 	fmt.Println("NAME OF CONTRAGENT", name)
 
@@ -88,7 +89,7 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 	var contractStatusRus = ""
 	//sqlQuery := "SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts) AND is_active = true"
 
-	sqlQuery := "SELECT id, contract_parameters, requisites, manager, type, status  FROM contracts"
+	sqlQuery := "SELECT id, contract_parameters, requisites, manager, type, status, requisites ->> 'beneficiary' AS  supplier  FROM contracts"
 	//sqlQuery := "SELECT id,  created_at  FROM contracts"
 
 	//sqlQuery := "SELECT  id, type, status, requisites, manager,  contract_parameters," +
@@ -137,12 +138,14 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 		i := model.ContractWithJsonB{}
 
 		//rows.Scan(&i.ID, &i.PrevContractId, &i.Status, &i.Requisites, &i.Manager, &i.Type, &i.SupplierCompanyManager, &i.ContractParameters, &i.Products, &i.Discounts, &i.Comment, &i.KAM, &i.UpdatedAt, &i.CreatedAt, &i.WithTemperatureConditions, &i.IsIndivid, &i.ExtContractCode)
-		err := rows.Scan(&i.ID, &i.ContractParameters, &i.Requisites, &i.Manager, &i.Type, &i.Status)
+		err := rows.Scan(&i.ID, &i.ContractParameters, &i.Requisites, &i.Manager, &i.Type, &i.Status, &supplier)
+		fmt.Println("КОНТРАГЕНТ", supplier)
 
 		//err := rows.Scan(&i.ID, &i.Type, &i.Status, &i.Requisites, &i.Manager, &i.ContractParameters, &i.CreatedAt, &i.UpdatedAt, &i.IsIndivid, &i.AdditionalAgreementNumber, &i.ExtContractCode)
 		if err != nil {
 			fmt.Println("ERROR", err)
 		}
+
 		fmt.Println("контракты внутри цикла ", i)
 		items = append(items, i)
 
