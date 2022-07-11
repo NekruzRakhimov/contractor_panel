@@ -12,4 +12,7 @@ SELECT  id, type, status, requisites, manager,  contract_parameters,
 		 created_at, updated_at, is_individ, additional_agreement_number, ext_contract_code FROM contracts
 
 
-SELECT  id, contract_parameters FROM contracts
+SELECT  id, contract_parameters FROM contracts;
+
+
+SELECT name FROM contractors_contractor WHERE  id = 56;

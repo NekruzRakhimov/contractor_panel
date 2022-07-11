@@ -1,7 +1,5 @@
 package model
 
-import "time"
-
 type ContractMiniInfo struct {
 	ID                        int     `json:"id"`
 	PrevContractId            int     `json:"-" gorm:"-"`
@@ -23,22 +21,20 @@ type ContractMiniInfo struct {
 }
 
 type ContractWithJsonB struct {
-	ID                        int    `json:"id"`
-	Type                      string `json:"type"`
-	PrevContractId            int    `json:"-"`
-	Status                    string `json:"status"` //вынести статус в отдельную таблицу
-	Requisites                string `json:"requisites"`
-	Manager                   string `json:"manager"`
-	KAM                       string `json:"kam"`
-	SupplierCompanyManager    string `json:"supplier_company_manager"`
-	ContractParameters        string `json:"contract_parameters"`
-	WithTemperatureConditions bool   `json:"with_temperature_conditions"`
-	Products                  string `json:"products"`
-	Discounts                 string `json:"discounts"`
-	Comment                   string `json:"comment"`
-	CreatedAt                 string `json:"created_at,omitempty"`
-
-	Test                      time.Time       `json:"test"`
+	ID                        int             `json:"id"`
+	Type                      string          `json:"type"`
+	PrevContractId            int             `json:"-"`
+	Status                    string          `json:"status"` //вынести статус в отдельную таблицу
+	Requisites                string          `json:"requisites"`
+	Manager                   string          `json:"manager"`
+	KAM                       string          `json:"kam"`
+	SupplierCompanyManager    string          `json:"supplier_company_manager"`
+	ContractParameters        string          `json:"contract_parameters"`
+	WithTemperatureConditions bool            `json:"with_temperature_conditions"`
+	Products                  string          `json:"products"`
+	Discounts                 string          `json:"discounts"`
+	Comment                   string          `json:"comment"`
+	CreatedAt                 string          `json:"created_at,omitempty"`
 	UpdatedAt                 string          `json:"updated_at,omitempty"`
 	IsIndivid                 bool            `json:"is_individ"`
 	IsExtendContract          bool            `json:"is_extend_contract"`
