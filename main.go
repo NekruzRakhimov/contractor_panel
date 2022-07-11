@@ -23,7 +23,7 @@ func main() {
 	os.Setenv("ACCESS_SECRET", "asdfertybvndfghrtyudfghasdfwer")
 	os.Setenv("REFRESH_SECRET", "lhjfghjtyuiycvbnadfrtysdfzcvfg")
 	//os.Setenv("REDIS_DSN", "rediss://:AVNS_BwpVUI_Q4IzmOVS@db-redis-blr1-07067-do-user-10184514-0.b.db.ondigitalocean.com:6379")
-	os.Setenv("REDIS_DSN", "rediss://:AVNS_BwpVUI_Q4IzmOVS@db-redis-blr1-07067-do-user-10184514-0.b.db.ondigitalocean.com:25061")
+	os.Setenv("REDIS_DSN", "redis://redis:pass@localhost:6379/<db>")
 	cmd.Execute()
 
 }

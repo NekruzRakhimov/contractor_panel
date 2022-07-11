@@ -12,7 +12,7 @@ type ContractTemplateService interface {
 		params model.ContractTemplateSearchParameters) ([]model.ContractTemplate, int64, error)
 	GetContractTemplate(ctx context.Context, id int64) (*model.ContractTemplate, error)
 	DownloadContractTemplateFile(ctx context.Context, id int64) (string, error)
-	GetAllContracts(ctx context.Context, contractType string) (contractsMiniInfo []model.ContractMiniInfo, err error)
+	GetAllContracts(ctx context.Context, contractType string, userId int64) (contractsMiniInfo []model.ContractMiniInfo, err error)
 }
 
 type contractTemplateService struct {
@@ -36,8 +36,8 @@ func (s *contractTemplateService) DownloadContractTemplateFile(ctx context.Conte
 	return "", nil
 }
 
-func (s *contractTemplateService) GetAllContracts(ctx context.Context, contractType string) (contractsMiniInfo []model.ContractMiniInfo, err error) {
-	contractsWithJson, err := s.r.GetAllContracts(ctx, contractType)
+func (s *contractTemplateService) GetAllContracts(ctx context.Context, contractType string, userId int64) (contractsMiniInfo []model.ContractMiniInfo, err error) {
+	contractsWithJson, err := s.r.GetAllContracts(ctx, contractType, userId)
 	if err != nil {
 		return nil, err
 	}

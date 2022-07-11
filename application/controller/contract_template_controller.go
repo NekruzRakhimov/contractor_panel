@@ -31,7 +31,7 @@ func (c *ContractTemplateController) GetAllContracts(w http.ResponseWriter, r *h
 	data, _ := middleware.ExtractTokenData(r)
 	fmt.Println("данные от токена", data)
 
-	contracts, err := c.s.GetAllContracts(r.Context(), status)
+	contracts, err := c.s.GetAllContracts(r.Context(), status, data.UserId)
 
 	if err != nil {
 		respond.WithError(w, r, err)
