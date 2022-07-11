@@ -79,7 +79,7 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 	var name string
 	var supplier string
 	r.db.QueryRow(ctx, "SELECT name FROM contractors_contractor WHERE  id = $1", userId).Scan(&name)
-	r.db.QueryRow(ctx, "SELECT requisites ->> 'beneficiary' AS  supplier  FROM contracts WHERE id = $1", userId).Scan(&supplier)
+	r.db.QueryRow(ctx, "SELECT requisites ->> 'beneficiary' AS  supplier  FROM contracts WHERE id = $1", 686).Scan(&supplier)
 	fmt.Println("NAME OF CONTRAGENT", name)
 	fmt.Println("NAME OF КОНТРАГЕНТ", supplier)
 

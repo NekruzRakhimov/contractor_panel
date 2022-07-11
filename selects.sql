@@ -17,4 +17,4 @@ SELECT  id, contract_parameters FROM contracts;
 
 SELECT name FROM contractors_contractor WHERE  id = 56;
 
-SELECT  requisites ->> 'beneficiary'  FROM contracts;
+SELECT  id, requisites ->> 'beneficiary'  FROM contracts;
