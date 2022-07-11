@@ -10,3 +10,6 @@ SELECT  id,type, status, requisites, manager, kam, supplier_company_manager, con
 
 SELECT  id, type, status, requisites, manager,  contract_parameters,
 		 created_at, updated_at, is_individ, additional_agreement_number, ext_contract_code FROM contracts
+
+
+SELECT  id, contract_parameters FROM contracts
