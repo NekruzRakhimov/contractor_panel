@@ -147,9 +147,12 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 		if err != nil {
 			fmt.Println("ERROR", err)
 		}
+		if supplier == name {
+			items = append(items, i)
+
+		}
 
 		fmt.Println("контракты внутри цикла ", i)
-		items = append(items, i)
 
 	}
 	fmt.Println("ARRAY", items)
