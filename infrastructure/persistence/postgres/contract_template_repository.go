@@ -142,7 +142,7 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 		//rows.Scan(&i.ID, &i.PrevContractId, &i.Status, &i.Requisites, &i.Manager, &i.Type, &i.SupplierCompanyManager, &i.ContractParameters, &i.Products, &i.Discounts, &i.Comment, &i.KAM, &i.UpdatedAt, &i.CreatedAt, &i.WithTemperatureConditions, &i.IsIndivid, &i.ExtContractCode)
 		err := rows.Scan(&i.ID, &i.ContractParameters, &i.Requisites, &i.Manager, &i.Type, &i.Status, &supplier)
 		fmt.Println("КОНТРАГЕНТ", supplier)
-		fmt.Println("контракты внутри цикла ", i)
+		//fmt.Println("контракты внутри цикла ", i)
 
 		//err := rows.Scan(&i.ID, &i.Type, &i.Status, &i.Requisites, &i.Manager, &i.ContractParameters, &i.CreatedAt, &i.UpdatedAt, &i.IsIndivid, &i.AdditionalAgreementNumber, &i.ExtContractCode)
 		if err != nil {
@@ -154,7 +154,7 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 		}
 
 	}
-	fmt.Println("ARRAY", items)
+	//fmt.Println("ARRAY", items)
 
 	//fmt.Println("После выхода loop", items)
 
