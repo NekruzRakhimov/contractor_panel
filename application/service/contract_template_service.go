@@ -116,46 +116,46 @@ func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contrac
 	contract.ID = contractWithJson.ID
 	contract.AdditionalAgreementNumber = contractWithJson.AdditionalAgreementNumber
 	contract.Type = contractWithJson.Type
-	contract.Comment = contractWithJson.Comment
+	//contract.Comment = contractWithJson.Comment
 	contract.Manager = contractWithJson.Manager
-	contract.KAM = contractWithJson.KAM
+	//contract.KAM = contractWithJson.KAM
 	contract.Status = contractWithJson.Status
-	contract.CreatedAt = contractWithJson.CreatedAt
-	contract.UpdatedAt = contractWithJson.UpdatedAt
-	contract.WithTemperatureConditions = contractWithJson.WithTemperatureConditions
-	contract.PrevContractId = contractWithJson.PrevContractId
-	contract.IsExtendContract = contractWithJson.IsExtendContract
-	contract.ExtendDate = contractWithJson.ExtendDate
-	contract.DiscountBrand = contractWithJson.DiscountBrand
-	contract.ExtContractCode = contractWithJson.ExtContractCode
+	//contract.CreatedAt = contractWithJson.CreatedAt
+	//contract.UpdatedAt = contractWithJson.UpdatedAt
+	//contract.WithTemperatureConditions = contractWithJson.WithTemperatureConditions
+	//contract.PrevContractId = contractWithJson.PrevContractId
+	//contract.IsExtendContract = contractWithJson.IsExtendContract
+	//contract.ExtendDate = contractWithJson.ExtendDate
+	//contract.DiscountBrand = contractWithJson.DiscountBrand
+	//contract.ExtContractCode = contractWithJson.ExtContractCode
 
 	err = json.Unmarshal([]byte(contractWithJson.Requisites), &contract.Requisites)
 	if err != nil {
 		return model.Contract{}, err
 	}
 
-	err = json.Unmarshal([]byte(contractWithJson.SupplierCompanyManager), &contract.SupplierCompanyManager)
-	if err != nil {
-		return model.Contract{}, err
-	}
+	//err = json.Unmarshal([]byte(contractWithJson.SupplierCompanyManager), &contract.SupplierCompanyManager)
+	//if err != nil {
+	//	return model.Contract{}, err
+	//}
 
 	err = json.Unmarshal([]byte(contractWithJson.ContractParameters), &contract.ContractParameters)
 	if err != nil {
 		return model.Contract{}, err
 	}
 
-	err = json.Unmarshal([]byte(contractWithJson.Products), &contract.Products)
-	if err != nil {
-		return model.Contract{}, err
-	}
+	//err = json.Unmarshal([]byte(contractWithJson.Products), &contract.Products)
+	//if err != nil {
+	//	return model.Contract{}, err
+	//}
 
-	err = json.Unmarshal([]byte(contractWithJson.Discounts), &contract.Discounts)
-	if err != nil {
-		return model.Contract{}, err
-	}
+	//err = json.Unmarshal([]byte(contractWithJson.Discounts), &contract.Discounts)
+	//if err != nil {
+	//	return model.Contract{}, err
+	//}
 
-	contract.IsExtendContract = contract.ContractParameters.IsExtendContract
+	//contract.IsExtendContract = contract.ContractParameters.IsExtendContract
 
-	contract.ExtendDate = contract.ContractParameters.ExtendDate
+	//contract.ExtendDate = contract.ContractParameters.ExtendDate
 	return contract, nil
 }
