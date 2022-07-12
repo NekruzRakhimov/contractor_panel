@@ -200,3 +200,32 @@ type Brand struct {
 	BrandCode       string `json:"brand_code"`
 	DiscountPercent string `json:"discount_percent"`
 }
+
+type RBRequest struct {
+	BIN            string `json:"bin"`
+	Type           string `json:"type"`
+	ContractorName string `json:"contractor_name"`
+	PeriodFrom     string `json:"period_from"`
+	PeriodTo       string `json:"period_to"`
+	ClientCode     string `json:"client_code"`
+	//DoubtedDiscounts []DoubtedDiscount `json:"doubted_discounts"`
+}
+
+type RbDTO struct {
+	ID                   int     `json:"id"`
+	ContractNumber       string  `json:"contract_number"`
+	StartDate            string  `json:"start_date"`
+	EndDate              string  `json:"end_date"`
+	TypePeriod           string  `json:"type_period"`
+	BrandName            string  `json:"brand_name,omitempty"`
+	ProductCode          string  `json:"product_code,omitempty"`
+	DiscountPercent      float64 `json:"discount_percent"`
+	DiscountAmount       float64 `json:"discount_amount"`
+	TotalWithoutDiscount float64 `json:"TotalWithoutDiscount"`
+	LeasePlan            float64 `json:"lease_plan"`
+	RewardAmount         float64 `json:"reward_amount"`
+	DiscountType         string  `json:"discount_type"`
+	Status               string  `json:"status"`
+	RegionName           string  `json:"region_name"`
+	RegionCode           string  `json:"region_code"`
+}

@@ -91,7 +91,7 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 	var contractStatusRus = ""
 	//sqlQuery := "SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts) AND is_active = true"
 
-	sqlQuery := "SELECT id, contract_parameters, requisites, manager, type, status, requisites ->> 'beneficiary' FROM contracts"
+	sqlQuery := "SELECT id, contract_parameters, requisites, manager, type, status,  case when (requisites ->> 'beneficiary') IS NULL then '' else requisites ->> 'beneficiary' end AS suppler FROM contracts"
 	//sqlQuery := "SELECT id,  created_at  FROM contracts"
 
 	//sqlQuery := "SELECT  id, type, status, requisites, manager,  contract_parameters," +
@@ -142,6 +142,7 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 		//rows.Scan(&i.ID, &i.PrevContractId, &i.Status, &i.Requisites, &i.Manager, &i.Type, &i.SupplierCompanyManager, &i.ContractParameters, &i.Products, &i.Discounts, &i.Comment, &i.KAM, &i.UpdatedAt, &i.CreatedAt, &i.WithTemperatureConditions, &i.IsIndivid, &i.ExtContractCode)
 		err := rows.Scan(&i.ID, &i.ContractParameters, &i.Requisites, &i.Manager, &i.Type, &i.Status, &supplier)
 		fmt.Println("КОНТРАГЕНТ", supplier)
+		fmt.Println("контракты внутри цикла ", i)
 
 		//err := rows.Scan(&i.ID, &i.Type, &i.Status, &i.Requisites, &i.Manager, &i.ContractParameters, &i.CreatedAt, &i.UpdatedAt, &i.IsIndivid, &i.AdditionalAgreementNumber, &i.ExtContractCode)
 		if err != nil {
@@ -151,8 +152,6 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 			items = append(items, i)
 
 		}
-
-		fmt.Println("контракты внутри цикла ", i)
 
 	}
 	fmt.Println("ARRAY", items)

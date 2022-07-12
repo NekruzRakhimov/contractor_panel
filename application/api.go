@@ -68,6 +68,7 @@ func configureRoutes(r *mux.Router, pc *pgxpool.Pool, client *redis2.Client) err
 	userRepo := postgres.NewUserRepository(pc)
 	tokenRepo := redis.NewTokenRepository(client)
 	contractTemplateRepo := postgres.NewContractTemplateRepository(pc)
+	//rbReport := postgres.NewReportTemplateRepository(pc)
 
 	signService := service.NewSignService(signRepo, tokenRepo)
 	contractTemplateService := service.NewContractTemplateService(contractTemplateRepo)
