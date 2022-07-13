@@ -209,10 +209,10 @@ func ConvertContractFromJsonB2(contractWithJson model.ContractWithJsonB) (contra
 	contract.UpdatedAt = contractWithJson.UpdatedAt
 	contract.WithTemperatureConditions = contractWithJson.WithTemperatureConditions
 	contract.PrevContractId = contractWithJson.PrevContractId
-	contract.IsExtendContract = contractWithJson.IsExtendContract
-	contract.ExtendDate = contractWithJson.ExtendDate
-	contract.DiscountBrand = contractWithJson.DiscountBrand
-	contract.ExtContractCode = contractWithJson.ExtContractCode
+	//contract.IsExtendContract = contractWithJson.IsExtendContract
+	//contract.ExtendDate = contractWithJson.ExtendDate
+	//contract.DiscountBrand = contractWithJson.DiscountBrand
+	//contract.ExtContractCode = contractWithJson.ExtContractCode
 	contract.View = contractWithJson.View
 
 	//contract.Regions = contractWithJson.Regions
@@ -224,11 +224,11 @@ func ConvertContractFromJsonB2(contractWithJson model.ContractWithJsonB) (contra
 		return model.Contract{}, err
 	}
 
-	err = json.Unmarshal([]byte(contractWithJson.SupplierCompanyManager), &contract.SupplierCompanyManager)
-	if err != nil {
-		log.Println("[service][json.Unmarshal([]byte(contractWithJson.SupplierCompanyManager), &contract.SupplierCompanyManager)] error is: ", err.Error())
-		return model.Contract{}, err
-	}
+	//err = json.Unmarshal([]byte(contractWithJson.SupplierCompanyManager), &contract.SupplierCompanyManager)
+	//if err != nil {
+	//	log.Println("[service][json.Unmarshal([]byte(contractWithJson.SupplierCompanyManager), &contract.SupplierCompanyManager)] error is: ", err.Error())
+	//	return model.Contract{}, err
+	//}
 
 	err = json.Unmarshal([]byte(contractWithJson.ContractParameters), &contract.ContractParameters)
 	if err != nil {
@@ -254,9 +254,9 @@ func ConvertContractFromJsonB2(contractWithJson model.ContractWithJsonB) (contra
 		return model.Contract{}, err
 	}
 
-	contract.IsExtendContract = contract.ContractParameters.IsExtendContract
-
-	contract.ExtendDate = contract.ContractParameters.ExtendDate
+	//contract.IsExtendContract = contract.ContractParameters.IsExtendContract
+	//
+	//contract.ExtendDate = contract.ContractParameters.ExtendDate
 	//log.Println("ДАННЫЕ ПО КОНТРАКТУ", contract)
 	return contract, nil
 }
