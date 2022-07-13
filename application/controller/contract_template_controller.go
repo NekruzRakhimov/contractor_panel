@@ -24,7 +24,7 @@ func (c *ContractTemplateController) HandleRoutes(r *mux.Router) {
 	r.HandleFunc("/contractTemplates", c.GetAllContractTemplates).Methods(http.MethodOptions, http.MethodGet)
 	r.HandleFunc("/contractTemplates/{id}/file", c.DownloadFile).Methods(http.MethodOptions, http.MethodGet)
 	r.HandleFunc("/contracts", c.GetAllContracts).Methods(http.MethodOptions, http.MethodGet)
-	r.HandleFunc("/contracts/{id}", c.GetContractByID).Methods(http.MethodOptions, http.MethodGet)
+	r.HandleFunc("/contract/{id}/details", c.GetContractByID).Methods(http.MethodOptions, http.MethodGet)
 
 }
 func (c *ContractTemplateController) GetContractByID(w http.ResponseWriter, r *http.Request) {

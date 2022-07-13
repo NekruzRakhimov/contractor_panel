@@ -64,3 +64,9 @@ SELECT id,
 
       -- case when (requisites ->> 'beneficiary') IS NULL then '' else requisites ->> 'beneficiary' end AS suppler
        case when products IS NULL then '[]' else products end FROM contracts;
+
+
+
+SELECT id, CAST(created_at AS text) FROM contracts;
+
+SELECT id FROM co
