@@ -42,6 +42,8 @@ type ContractWithJsonB struct {
 	DiscountBrand             []DiscountBrand `json:"discount_brand"`
 	AdditionalAgreementNumber int             `json:"additional_agreement_number"`
 	ExtContractCode           string          `json:"ext_contract_code"`
+	View                      string          `json:"view"`
+	Regions                   string          `json:"regions"`
 }
 
 type Contract struct {
@@ -68,6 +70,13 @@ type Contract struct {
 	//	DiscountPercent string `json:"discount_percent"`
 	DiscountBrand   []DiscountBrand `json:"discount_brand"`
 	ExtContractCode string          `json:"ext_contract_code"`
+	View            string          `json:"view"`
+
+	Regions []Regions `json:"regions"`
+}
+type Regions struct {
+	RegionName string `json:"region_name"`
+	RegionCode string `json:"region_code"`
 }
 
 type PriceType struct {

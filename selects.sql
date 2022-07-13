@@ -55,10 +55,12 @@ FROM contracts;
 
 
 SELECT id,
+       products,
        contract_parameters,
        requisites,
        manager,
        type,
        status,
-       case when (requisites ->> 'beneficiary') IS NULL then '' else requisites ->> 'beneficiary' end AS suppler
-FROM contracts;
+
+      -- case when (requisites ->> 'beneficiary') IS NULL then '' else requisites ->> 'beneficiary' end AS suppler
+       case when products IS NULL then '[]' else products end FROM contracts;
