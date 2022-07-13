@@ -180,7 +180,7 @@ func (r *ContractTemplateRepository) GetAllContracts(ctx context.Context, contra
 
 func (r *ContractTemplateRepository) GetContractDetails(ctx context.Context, contractId int) (contract model.ContractWithJsonB, err error) {
 
-	err = r.db.QueryRow(ctx, "SELECT id, type, status, requisites, manager, kam, contract_parameters, with_temperature_conditions, products"+
+	err = r.db.QueryRow(ctx, "SELECT id, type, status, requisites, manager, kam, contract_parameters, with_temperature_conditions, products,"+
 		"discounts, comment, created_at, updated_at, is_individ, is_extend_contract, additional_agreement_number, ext_contract_code,view, regions FROM contracts WHERE id = $1", contractId).Scan(
 		&contract.ID, &contract.Type, &contract.Status, &contract.Requisites, &contract.Manager, &contract.KAM, &contract.ContractParameters, &contract.WithTemperatureConditions,
 		&contract.Products, &contract.Discounts, &contract.Comment, &contract.CreatedAt, &contract.UpdatedAt, &contract.IsIndivid, &contract.IsExtendContract, &contract.AdditionalAgreementNumber, &contract.ExtContractCode,
