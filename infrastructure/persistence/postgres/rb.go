@@ -21,11 +21,11 @@ func NewReportTemplateRepository(db *pgxpool.Pool) *ReportTemplateRepository {
 func (r *ReportTemplateRepository) GetAllRBByContractorBIN(ctx context.Context, request model.RBRequest) (rbDTOs []model.RbDTO, err error) {
 
 	//TODO: необходимо, по ID брать бин хотя бы
-	contractsWithJson, err := r.GetAllContractDetailByBIN(ctx, request.PeriodFrom, request.PeriodFrom)
-	if err != nil {
-		return nil, err
-	}
-	BulkConvertContractFromJsonB(contractsWithJson)
+	//contractsWithJson, err := r.GetAllContractDetailByBIN(ctx, request.PeriodFrom, request.PeriodFrom)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//BulkConvertContractFromJsonB(contractsWithJson)
 
 	return rbDTOs, nil
 }
