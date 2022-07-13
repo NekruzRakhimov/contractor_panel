@@ -72,7 +72,8 @@ type Contract struct {
 	ExtContractCode string          `json:"ext_contract_code"`
 	View            string          `json:"view"`
 
-	Regions []Regions `json:"regions"`
+	Regions    []Regions `json:"regions"`
+	ClientCode string    `json:"client_code"`
 }
 type Regions struct {
 	RegionName string `json:"region_name"`
