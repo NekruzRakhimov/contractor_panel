@@ -70,4 +70,4 @@ SELECT id,
 SELECT id, CAST(created_at AS text) FROM contracts;
 SELECT id, to_char(created_at, string_f)
 
-SELECT id FROM co
+SELECT name  FROM contractors_contractor;

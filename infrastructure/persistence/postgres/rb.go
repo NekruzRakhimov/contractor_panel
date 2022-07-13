@@ -18,30 +18,6 @@ func NewReportTemplateRepository(db *pgxpool.Pool) *ReportTemplateRepository {
 
 //TODO: тут будет логика по БД, хотя
 
-func (r *ReportTemplateRepository) GetAllRBByContractorBIN(ctx context.Context, request model.RBRequest) (rbDTOs []model.RbDTO, err error) {
-
-	//TODO: необходимо, по ID брать бин хотя бы
-	//contractsWithJson, err := r.GetAllContractDetailByBIN(ctx, request.PeriodFrom, request.PeriodFrom)
-	//if err != nil {
-	//	return nil, err
-	//}
-	//BulkConvertContractFromJsonB(contractsWithJson)
-
-	return rbDTOs, nil
-}
-func BulkConvertContractFromJsonB(contractsWithJson []model.ContractWithJsonB) (contracts []model.Contract, err error) {
-	for i := range contractsWithJson {
-		contract, err := ConvertContractFromJsonB(contractsWithJson[i])
-		if err != nil {
-			log.Println("Error: service.BulkConvertContractFromJsonB. Error is: ", err.Error())
-			continue
-		}
-		contracts = append(contracts, contract)
-	}
-
-	return
-}
-
 func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contract model.Contract, err error) {
 	//log.Println("ConvertContractFromJsonB=======================", contractWithJson.ID, contractWithJson.IsExtendContract, contractWithJson.ExtendDate)
 	contract.ID = contractWithJson.ID
@@ -106,8 +82,26 @@ func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contrac
 	return contract, nil
 }
 
-func (r ReportTemplateRepository) GetAllContractDetailByBIN(ctx context.Context, clientCode, PeriodFrom, PeriodTo string) (contracts []model.ContractWithJsonB, err error) {
+func BulkConvertContractFromJsonB(contractsWithJson []model.ContractWithJsonB) (contracts []model.Contract, err error) {
+	for i := range contractsWithJson {
+		contract, err := ConvertContractFromJsonB(contractsWithJson[i])
+		if err != nil {
+			log.Println("Error: service.BulkConvertContractFromJsonB. Error is: ", err.Error())
+			continue
+		}
+		contracts = append(contracts, contract)
+	}
 
+	return
+}
+
+func (r ReportTemplateRepository) GetAllContractDetailByBIN(ctx context.Context, userID int64, rbRequest model.RBRequest) (contracts []model.ContractWithJsonB, err error) {
+	//var name string
+	var clientCode string
+	err = r.db.QueryRow(ctx, "SELECT client_code  FROM contractors_contractor WHERE id = $1 ", userID).Scan(&clientCode)
+	if err != nil {
+		return nil, err
+	}
 	sqlQuery := `SELECT *
 	         FROM (SELECT *
 	         FROM "contracts"
@@ -121,7 +115,7 @@ func (r ReportTemplateRepository) GetAllContractDetailByBIN(ctx context.Context,
 	//	return nil, err
 	//}
 
-	_, err = Query(r.db, ctx, sqlQuery, clientCode, PeriodFrom, PeriodTo).Scan(&contracts)
+	_, err = Query(r.db, ctx, sqlQuery, clientCode, rbRequest.PeriodFrom, rbRequest.PeriodTo).Scan(&contracts)
 	if err != nil {
 		log.Println("[repository][GetAllContractDetailByBIN] error is: ", err.Error())
 		return nil, err

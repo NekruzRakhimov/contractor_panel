@@ -87,14 +87,6 @@ type PriceType struct {
 	ClientBin         string `json:"client_bin"`
 }
 
-type DiscountBrand struct {
-	Id              int     `json:"id"`
-	BrandName       string  `json:"brand_name"`
-	BrandCode       string  `json:"brand_code"`
-	DiscountPercent float64 `json:"discount_percent"`
-	ContractId      int     `json:"contract_id,omitempty"`
-}
-
 type Requisites struct {
 	ContractorName         string `json:"contractor_name"`
 	Beneficiary            string `json:"beneficiary,omitempty"`
@@ -144,17 +136,18 @@ type ContractParameters struct {
 }
 
 type Product struct {
-	ProductNumber    string    `json:"product_number,omitempty"`
-	ProductName      string    `json:"product_name"`
-	Price            float64   `json:"price,omitempty"`
-	Currency         string    `json:"currency,omitempty"`
-	Substance        string    `json:"substance"`
-	StorageCondition string    `json:"storage_condition"`
-	Producer         string    `json:"producer"`
-	Sku              string    `json:"sku"`
-	LeasePlan        float32   `json:"lease_plan"`
-	DiscountPercent  float32   `json:"discount_percent"`
-	PriceType        PriceType `json:"price_type"`
+	ProductNumber    string     `json:"product_number,omitempty"`
+	ProductName      string     `json:"product_name"`
+	Price            float64    `json:"price"`
+	Currency         string     `json:"currency"`
+	Substance        string     `json:"substance,omitempty"`
+	StorageCondition string     `json:"storage_condition,omitempty"`
+	Producer         string     `json:"producer,omitempty"`
+	Sku              string     `json:"sku,omitempty"`
+	SkuName          string     `json:"sku_name,omitempty"`
+	Plan             float64    `json:"plan,omitempty"`
+	DiscountPercent  float64    `json:"discount_percent,omitempty"`
+	PriceType        *PriceType `json:"price_type,omitempty"`
 }
 
 type Discount struct {
@@ -165,22 +158,23 @@ type Discount struct {
 	PeriodFrom      string           `json:"period_from"`
 	IsSale          bool             `json:"is_sale"`
 	PeriodTo        string           `json:"period_to"`
-	DiscountPercent float32          `json:"discount_percent"`
-	GrowthPercent   float32          `json:"growth_percent"`
+	DiscountPercent float64          `json:"discount_percent"`
+	GrowthPercent   float64          `json:"growth_percent"`
 	Periods         []DiscountPeriod `json:"periods,omitempty"`
 	DiscountBrands  []DiscountBrands `json:"discount_brands"`
+	Products        []Product        `json:"products"`
 }
-
 type DiscountPeriod struct {
 	PeriodFrom      string  `json:"period_from"`
 	PeriodTo        string  `json:"period_to"`
-	TotalAmount     float32 `json:"total_amount"`
+	TotalAmount     float64 `json:"total_amount"`
 	RewardAmount    int     `json:"reward_amount"`
-	DiscountPercent float32 `json:"discount_percent"`
+	DiscountPercent float64 `json:"discount_percent"`
 	Type            string  `json:"type,omitempty"`
 	Name            string  `json:"name,omitempty"`
-	PurchaseAmount  float32 `json:"purchase_amount,omitempty"`
-	GrowthPercent   float32 `json:"growth_percent,omitempty"`
+	PurchaseAmount  float64 `json:"purchase_amount,omitempty"`
+	SalesAmount     float64 `json:"sales_amount,omitempty"`
+	GrowthPercent   float64 `json:"growth_percent,omitempty"`
 	//DiscountAmount      float32 `json:"discount_amount,omitempty"`
 	//GraceDays           string  `json:"grace_days,omitempty"`
 	//PaymentMultiplicity string  `json:"payment_multiplicity,omitempty"`
@@ -197,19 +191,19 @@ type DiscountBrands struct {
 }
 
 type BrandDTO struct {
-	DiscountPercent float32 `json:"discount_percent"`
-	PurchaseAmount  float32 `json:"purchase_amount"`
-	SalesAmount     float32 `json:"sales_amount"`
+	DiscountPercent float64 `json:"discount_percent"`
+	PurchaseAmount  float64 `json:"purchase_amount"`
+	SalesAmount     float64 `json:"sales_amount"`
 	BrandName       string  `json:"brand_name"`
 	BrandCode       string  `json:"brand_code"`
 }
 
-type Brand struct {
-	ID              int    `json:"id"`
-	Brand           string `json:"brand"`
-	BrandCode       string `json:"brand_code"`
-	DiscountPercent string `json:"discount_percent"`
-}
+//type Brand struct {
+//	ID              int    `json:"id"`
+//	Brand           string `json:"brand"`
+//	BrandCode       string `json:"brand_code"`
+//	DiscountPercent string `json:"discount_percent"`
+//}
 
 type RBRequest struct {
 	BIN            string `json:"bin"`
