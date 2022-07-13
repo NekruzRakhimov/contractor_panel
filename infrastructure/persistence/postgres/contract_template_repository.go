@@ -182,9 +182,9 @@ func (r *ContractTemplateRepository) GetContractDetails(ctx context.Context, con
 
 	err = r.db.QueryRow(ctx, "SELECT id, type, status, requisites, manager, kam, contract_parameters, with_temperature_conditions, products,"+
 		"discounts, comment, created_at, updated_at, is_individ,  additional_agreement_number,view, regions FROM contracts WHERE id = $1", contractId).Scan(
-		&contract.View, &contract.Regions,
+
 		&contract.ID, &contract.Type, &contract.Status, &contract.Requisites, &contract.Manager, &contract.KAM, &contract.ContractParameters, &contract.WithTemperatureConditions,
-		&contract.Products, &contract.Discounts, &contract.Comment, &contract.CreatedAt, &contract.UpdatedAt, &contract.IsIndivid, &contract.AdditionalAgreementNumber)
+		&contract.Products, &contract.Discounts, &contract.Comment, &contract.CreatedAt, &contract.UpdatedAt, &contract.IsIndivid, &contract.AdditionalAgreementNumber, &contract.View, &contract.Regionsa)
 	fmt.Println("договор", contract)
 	if err != nil {
 		log.Println("ошибка при Селекте", err)
