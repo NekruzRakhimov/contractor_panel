@@ -74,5 +74,5 @@ func (c *RBReportController) FormExcelForRB(w http.ResponseWriter, r *http.Reque
 	}
 	w.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	c.s.FormExcelForRBReport(r.Context(), tokenData.UserId, rbRequest)
-	//w.WriteHeader
+
 }
